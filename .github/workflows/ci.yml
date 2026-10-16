@@ -11,7 +11,7 @@ permissions:
 jobs:
   test:
     name: Lint & unit tests (Python)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -24,7 +24,7 @@ jobs:
 
   terraform:
     name: Terraform fmt & validate
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     defaults:
       run:
         working-directory: terraform
@@ -38,7 +38,7 @@ jobs:
   deploy-test:
     name: Build, scan, deploy to kind, smoke test
     needs: [test, terraform]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
 
@@ -46,7 +46,7 @@ jobs:
         run: docker build -t pulse:dev .
 
       - name: Scan image for vulnerabilities
-        uses: aquasecurity/trivy-action@0.28.0
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25  # v0.36.0 (pinned to a commit: tags can be moved or deleted)
         with:
           image-ref: pulse:dev
           severity: CRITICAL,HIGH
@@ -82,7 +82,7 @@ jobs:
     name: Push image to GHCR
     needs: deploy-test
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: read
       packages: write
