@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+
+# Terraform: state can hold secrets, never commit it
+terraform/.terraform/
+terraform/*.tfstate*
+terraform/*-config

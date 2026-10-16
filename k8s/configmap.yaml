@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pulse-config
+data:
+  PULSE_TARGETS: "https://example.com,https://github.com,https://kubernetes.io"
+  PULSE_INTERVAL: "30"
+  PULSE_TIMEOUT: "5"
